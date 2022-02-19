@@ -19,6 +19,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
 
     [Header("Combat")]
+    [SerializeField] private Transform firePoint;
     [SerializeField] private BulletBehaviour bulletPrefab;
 
     [Range(0.1f, 10f)]
@@ -80,7 +81,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
         if ((Time.time - lastShotTime) < timeBetweenShots) { return; }
         lastShotTime = Time.time;
 
-        var bullet = Instantiate(bulletPrefab);
+        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.Initialize(transform.up);
     }
 }

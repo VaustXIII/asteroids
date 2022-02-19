@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour {
 
     [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float lifeTime = 0.5f;
 
     private Vector2 velocity;
 
@@ -15,5 +16,10 @@ public class BulletBehaviour : MonoBehaviour {
 
     public void Initialize(Vector2 direction) {
         velocity = maxSpeed * direction.normalized;
+        this.Invoke(() => SelfDestruct(), lifeTime);
+    }
+
+    private void SelfDestruct() {
+        Destroy(gameObject);
     }
 }
