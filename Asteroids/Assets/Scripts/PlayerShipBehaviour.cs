@@ -9,6 +9,14 @@ public class GameInput {
     public bool wasFirePressed;
 }
 
+public class PlayerState {
+    public Vector2 position;
+    public float rotationAngle;
+    public Vector2 velocity;
+    public int laserShotsCount;
+    public float laserShotsCooldown;
+}
+
 public class PlayerShipBehaviour : MonoBehaviour {
 
     [Header("Movement")]
@@ -35,6 +43,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
 
     private GameInput input = new GameInput();
+    private PlayerState state = new PlayerState();
 
     private void Awake() {
         Assert.IsNotNull(bulletPrefab, $"{gameObject.name}.{this.GetType()}: need a bullet prefab");
@@ -61,6 +70,15 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
         input.forward = inputValue.y;
         input.turn = inputValue.x;
+    }
+
+    public PlayerState GetState() {
+        state.position = transform.position;
+        state.rotationAngle = transform.rotation.eulerAngles.z;
+        state.velocity = currentVelocity;
+        state.laserShotsCount = 0;
+        state.laserShotsCooldown = 0f;
+        return state;
     }
 
     private void Move(GameInput input) {
