@@ -7,6 +7,8 @@ public class BulletBehaviour : MonoBehaviour {
     [SerializeField] private float maxSpeed = 20f;
     [SerializeField] private float lifeTime = 0.5f;
 
+    private Coroutine selfDestructCoroutine;
+
     private Vector2 velocity;
 
     private void Update() {
@@ -16,10 +18,22 @@ public class BulletBehaviour : MonoBehaviour {
 
     public void Initialize(Vector2 direction) {
         velocity = maxSpeed * direction.normalized;
-        this.Invoke(() => SelfDestruct(), lifeTime);
+        selfDestructCoroutine = this.Invoke(() => SelfDestruct(), lifeTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.TryGetComponent<IShootable>(out var target)) {
+            Debug.Log($"Collided with: {collision.gameObject.name}");
+            target.GetShot();
+            SelfDestruct();
+        }
     }
 
     private void SelfDestruct() {
+        if (selfDestructCoroutine != null) {
+            StopCoroutine(selfDestructCoroutine);
+            selfDestructCoroutine = null;
+        }
         Destroy(gameObject);
     }
 }

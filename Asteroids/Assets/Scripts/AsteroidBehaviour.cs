@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidBehaviour : MonoBehaviour {
+public class AsteroidBehaviour : MonoBehaviour, IShootable {
     [SerializeField] private float initialSpeedMin = 3f;
     [SerializeField] private float initialSpeedMax = 12f;
 
@@ -31,11 +31,13 @@ public class AsteroidBehaviour : MonoBehaviour {
         initialSpeedMax = Mathf.Max(initialSpeedMin, initialSpeedMax);
     }
 
-    [ContextMenu("break")]
+    public void GetShot() {
+        BreakDownIntoDebris();
+    }
+
     private void BreakDownIntoDebris() {
         if (childAsteroidPrefab != null) {
-            for (int childIndex = 0; childIndex < childrenCount; childIndex++)
-            {
+            for (int childIndex = 0; childIndex < childrenCount; childIndex++) {
                 var child = Instantiate(childAsteroidPrefab, transform.position, transform.rotation);
                 child.Initialize(Random.onUnitSphere);
             }
