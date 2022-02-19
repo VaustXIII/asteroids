@@ -37,6 +37,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     private GameInput input = new GameInput();
 
     private void Awake() {
+        Assert.IsNotNull(bulletPrefab, $"{gameObject.name}.{this.GetType()}: need a bullet prefab");
         Assert.AreNotEqual(0f, fireRate,
             $"{gameObject.name}.{this.GetType()}: fireRate can not be zero");
         timeBetweenShots = 1f / fireRate;
