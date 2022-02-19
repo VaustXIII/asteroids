@@ -37,9 +37,9 @@ public class WrapAroundBehaviour : MonoBehaviour {
     }
 
     private void WrapAround() {
-        if (isWrappingX && isWrappingY) return;
-        var newPosition = transform.position;
+        if (isWrappingX && isWrappingY) { return; }
 
+        var newPosition = transform.position;
         var viewPortPosition = mainCamera.WorldToViewportPoint(transform.position);
         if (!isWrappingX && (viewPortPosition.x > 1.0f || viewPortPosition.x < 0f)) {
             newPosition.x = -newPosition.x;

@@ -650,8 +650,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1555296641}
-  - component: {fileID: 1555296642}
   - component: {fileID: 1555296643}
+  - component: {fileID: 1555296642}
   - component: {fileID: 1555296644}
   m_Layer: 0
   m_Name: Player
@@ -691,6 +691,8 @@ MonoBehaviour:
   acceleration: 20
   turnRate: 200
   frictionRate: 0.002
+  bulletPrefab: {fileID: -6081534927504884130, guid: 004fe2df91bb49542827e1c3064adfd0, type: 3}
+  fireRate: 2
 --- !u!114 &1555296643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,10 +734,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6a051791-2769-4a96-9a32-c73308386b0b
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fc95ecc8-0c2c-4387-a3f6-8cba4561deb5
-    m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1555296642}
