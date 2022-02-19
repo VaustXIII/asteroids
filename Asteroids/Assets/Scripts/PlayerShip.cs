@@ -1,6 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class GameInput {
+    public float forward;
+    public float turn;
+    public bool wasFirePressed;
+}
 
 public class PlayerShip : MonoBehaviour {
     [SerializeField] private float maxSpeed = 10f;
@@ -8,44 +13,38 @@ public class PlayerShip : MonoBehaviour {
     [SerializeField] private float turnRate = 200f;
     [SerializeField] private float frictionRate = .2f;
 
-
     private Vector2 currentVelocity = Vector2.zero;
-    private float currentAcceleration = 0f;
-    private float currentTurnRate = 0f;
+    private float currentAcceleration;
+    private float currentTurnRate;
+
+    private GameInput input = new GameInput();
 
     private void Update() {
-        GetInputs();
-        Move();
+        Move(input);
     }
 
-    private void GetInputs() {
-        currentAcceleration = 0f;
-        if (Input.GetKey(KeyCode.W)) {
-            currentAcceleration = acceleration;
-        }
-        else if (Input.GetKey(KeyCode.S)) {
-
-            currentAcceleration = -acceleration;
-        }
-
-
-        currentTurnRate = 0f;
-        if (Input.GetKey(KeyCode.A)) {
-            currentTurnRate = turnRate;
-        }
-        else if (Input.GetKey(KeyCode.D)) {
-            currentTurnRate = -turnRate;
-        }
+    public void OnInputFire(InputAction.CallbackContext context) {
+        input.wasFirePressed = context.performed;
     }
 
-    private void Move() {
+    public void OnInputMove(InputAction.CallbackContext context) {
+        Vector2 inputValue = context.ReadValue<Vector2>();
+
+        input.forward = inputValue.y;
+        input.turn = inputValue.x;
+    }
+
+    private void Move(GameInput input) {
+        currentAcceleration = input.forward > 0 ? acceleration * input.forward : 0f;
+        currentTurnRate = turnRate * -input.turn;
+
         float rotation = currentTurnRate * Time.deltaTime;
         transform.Rotate(0, 0, rotation, Space.Self);
 
         Vector2 velocityDelta = currentAcceleration * Time.deltaTime * (Vector2)transform.up - frictionRate * currentVelocity;
         currentVelocity += velocityDelta;
-        
-        if (currentVelocity.sqrMagnitude > maxSpeed*maxSpeed) {
+
+        if (currentVelocity.sqrMagnitude > maxSpeed * maxSpeed) {
             currentVelocity = maxSpeed * currentVelocity.normalized;
         }
 
