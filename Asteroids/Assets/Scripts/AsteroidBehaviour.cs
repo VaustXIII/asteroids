@@ -12,10 +12,6 @@ public class AsteroidBehaviour : MonoBehaviour, IShootable {
 
     private Vector2 velocity;
 
-    private void Awake() {
-        Initialize(Random.onUnitSphere);
-    }
-
     private void Update() {
         var positionDelta = Time.deltaTime * velocity;
         transform.Translate(positionDelta.x, positionDelta.y, 0f);
