@@ -48,6 +48,10 @@ public class PlayerShipBehaviour : MonoBehaviour {
         Fire(input);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        Debug.Log("I'm dead");
+    }
+
     public void OnInputFire(InputAction.CallbackContext context) {
         input.wasFirePressed = context.performed;
     }
