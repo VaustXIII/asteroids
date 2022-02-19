@@ -652,6 +652,7 @@ GameObject:
   - component: {fileID: 1555296641}
   - component: {fileID: 1555296642}
   - component: {fileID: 1555296643}
+  - component: {fileID: 1555296644}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -687,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
-  acceleration: 30
+  acceleration: 20
   turnRate: 200
   frictionRate: 0.002
 --- !u!114 &1555296643
@@ -796,6 +797,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1555296644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555296640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9142a70d2be33484786466978769582f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1576342308
 GameObject:
   m_ObjectHideFlags: 0
