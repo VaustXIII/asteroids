@@ -163,7 +163,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 356068519}
-  m_Layer: 0
+  - component: {fileID: 356068520}
+  - component: {fileID: 356068521}
+  - component: {fileID: 356068522}
+  m_Layer: 9
   m_Name: FlyingSaucer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,6 +188,47 @@ Transform:
   m_Father: {fileID: 1633026451}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &356068520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356068518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4390ecb803c3f414d9ed60b83713c449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 4
+--- !u!114 &356068521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356068518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9142a70d2be33484786466978769582f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &356068522
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356068518}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &469863356
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,9 +273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 857774825863713653, guid: b4faa7a374c82334bbf62a75cb7e43d1, type: 3}
-  maxAsteroidCount: 20
   timeBetweenSpawns: 2
-  drawDebugLines: 0
+  drawDebugLines: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1576342309}
   - component: {fileID: 1576342310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
