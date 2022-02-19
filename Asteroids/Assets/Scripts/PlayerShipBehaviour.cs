@@ -18,6 +18,7 @@ public class PlayerState {
 }
 
 public class PlayerShipBehaviour : MonoBehaviour {
+    public event System.Action crashed;
 
     [Header("Movement")]
     [SerializeField] private float maxSpeed = 10f;
@@ -58,7 +59,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        Debug.Log("I'm dead");
+        crashed?.Invoke();
     }
 
     public void OnInputFire(InputAction.CallbackContext context) {
