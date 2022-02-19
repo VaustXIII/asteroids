@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 857774824970528085}
   - component: {fileID: 857774824970528084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 857774825863713650}
   - component: {fileID: 857774825863713653}
   - component: {fileID: 857774825863713652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "3. Asteroid \u0432\u0430\u0449\u0435 \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u0438\u0439
     \u0436\u0435\u0441\u0442\u044C"
   m_TagString: Untagged
@@ -131,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialSpeedMin: 3
   initialSpeedMax: 12
+  childAsteroidPrefab: {fileID: 0}
+  childrenCount: 0
 --- !u!114 &857774825863713652
 MonoBehaviour:
   m_ObjectHideFlags: 0
