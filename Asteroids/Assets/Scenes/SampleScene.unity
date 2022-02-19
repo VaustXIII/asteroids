@@ -230,7 +230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 857774825863713653, guid: b4faa7a374c82334bbf62a75cb7e43d1, type: 3}
   maxAsteroidCount: 20
-  timeBetweenSpawns: 1
+  timeBetweenSpawns: 2
+  drawDebugLines: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

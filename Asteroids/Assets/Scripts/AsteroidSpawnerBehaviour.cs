@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AsteroidSpawnerBehaviour : MonoBehaviour {
     [SerializeField] private AsteroidBehaviour asteroidPrefab;
-    [SerializeField] private int maxAsteroidCount = 20;
     [SerializeField] private float timeBetweenSpawns = 3f;
 
     [Header("Debug")]
