@@ -77,19 +77,7 @@ public class EnemiesSpawnerBehaviour : MonoBehaviour {
         if ((Time.time - lastFlyingSaucerSpawnTime) < timeBetweenFlyingSaucerSpawns) { return; }
         lastFlyingSaucerSpawnTime = Time.time;
 
-        bool isVertical = RandomExt.Bool(); // Верх-низ или право-лево?
-        bool isPositive = RandomExt.Bool();
-        Vector2 randomDirection;
-        if (isVertical) { // Задаём точку на краю Viewport'а
-            randomDirection.x = Random.Range(0f, 1f);
-            randomDirection.y = isPositive ? 1.1f : 1.1f; // 1.1f чтобы чуть за экраном появлялись
-        }
-        else {
-            randomDirection.y = Random.Range(0f, 1f);
-            randomDirection.x = isPositive ? 1.1f : 1.1f;
-        }
-        var pointOutsideOfCameraView = Camera.main.ViewportToWorldPoint(new Vector3(randomDirection.x, randomDirection.y, 0f));
-        pointOutsideOfCameraView.z = 0f;
+        var pointOutsideOfCameraView = GetRandomPointOutsideOfCameraView(mainCamera);
 
         var flyingSaucer = Instantiate(flyingSaucerPrefab, pointOutsideOfCameraView, Quaternion.identity);
         flyingSaucer.Initialize(targetPlayer);
