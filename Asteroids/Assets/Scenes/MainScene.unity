@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 469863357}
   - component: {fileID: 469863358}
   m_Layer: 0
-  m_Name: AsteroidSpawner
+  m_Name: EnemiesSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -487,7 +487,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 857774825863713653, guid: b4faa7a374c82334bbf62a75cb7e43d1, type: 3}
-  timeBetweenSpawns: 2
+  flyingSaucerPrefab: {fileID: 4634430889709050499, guid: 4a33b97f2353f204e9f4cd806fd9ef1d, type: 3}
+  timeBetweenAsteroidSpawns: 3
+  timeBetweenFlyingSaucerSpawns: 10
+  targetPlayer: {fileID: 1555296641}
   drawDebugLines: 1
 --- !u!1 &506868614
 GameObject:
@@ -608,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiController: {fileID: 277267208}
   playerShip: {fileID: 1555296642}
-  asteroidSpawner: {fileID: 0}
+  enemiesSpawner: {fileID: 0}
 --- !u!1 &864632885
 GameObject:
   m_ObjectHideFlags: 0

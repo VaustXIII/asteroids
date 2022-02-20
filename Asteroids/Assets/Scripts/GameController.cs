@@ -4,26 +4,26 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
     [SerializeField] private UIController uiController;
     [SerializeField] private PlayerShipBehaviour playerShip;
-    [SerializeField] private AsteroidSpawnerBehaviour asteroidSpawner;
+    [SerializeField] private EnemiesSpawnerBehaviour enemiesSpawner;
 
     private int playerScore;
 
     private void Awake() {
         uiController = uiController ?? FindObjectOfType<UIController>();
         playerShip = playerShip ?? FindObjectOfType<PlayerShipBehaviour>();
-        asteroidSpawner = asteroidSpawner ?? FindObjectOfType<AsteroidSpawnerBehaviour>();
+        enemiesSpawner = enemiesSpawner ?? FindObjectOfType<EnemiesSpawnerBehaviour>();
     }
 
     private void OnEnable() {
         playerShip.crashed += OnPlayerCrashed;
         uiController.retryButtonClicked += OnRetry;
-        asteroidSpawner.spawned += OnScoreableObjectSpawned;
+        enemiesSpawner.spawned += OnScoreableObjectSpawned;
     }
 
     private void OnDisable() {
         playerShip.crashed -= OnPlayerCrashed;
         uiController.retryButtonClicked -= OnRetry;
-        asteroidSpawner.spawned -= OnScoreableObjectSpawned;
+        enemiesSpawner.spawned -= OnScoreableObjectSpawned;
     }
 
     private void Update() {
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
 
     private void OnPlayerCrashed() {
         playerShip.gameObject.SetActive(false);
-        asteroidSpawner.gameObject.SetActive(false);
+        enemiesSpawner.gameObject.SetActive(false);
         uiController.OnGameOver(playerScore);
     }
 

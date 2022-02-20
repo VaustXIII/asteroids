@@ -1,6 +1,4 @@
-1. score
 2. lazor
-3. spawn ufo
 4. separate logic and views
 5. use assembly definitions
 6. use object pooling

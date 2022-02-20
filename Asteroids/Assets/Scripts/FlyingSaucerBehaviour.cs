@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingSaucerBehaviour : MonoBehaviour, IShootable {
+public class FlyingSaucerBehaviour : MonoBehaviour, IShootable, IScoreable {
+    public event System.Action<int> scored;
+
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private int pointsForDestroying = 300;
 
@@ -23,6 +25,7 @@ public class FlyingSaucerBehaviour : MonoBehaviour, IShootable {
     }
 
     public void GetShot() {
+        scored?.Invoke(pointsForDestroying);
         Destroy(gameObject);
     }
 
