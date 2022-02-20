@@ -1,4 +1,3 @@
 2. lazor
 4. separate logic and views
-5. use assembly definitions
 6. use object pooling
