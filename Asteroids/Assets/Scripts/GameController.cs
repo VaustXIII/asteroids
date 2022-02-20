@@ -17,11 +17,13 @@ public class GameController : MonoBehaviour {
     private void OnEnable() {
         playerShip.crashed += OnPlayerCrashed;
         uiController.retryButtonClicked += OnRetry;
+        asteroidSpawner.spawned += OnScoreableObjectSpawned;
     }
 
     private void OnDisable() {
         playerShip.crashed -= OnPlayerCrashed;
         uiController.retryButtonClicked -= OnRetry;
+        asteroidSpawner.spawned -= OnScoreableObjectSpawned;
     }
 
     private void Update() {
@@ -39,5 +41,13 @@ public class GameController : MonoBehaviour {
 
     private void OnRetry() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnScoreableObjectSpawned(IScoreable obj) {
+        obj.scored += OnScored;
+    }
+
+    private void OnScored(int score) {
+        playerScore += score;
     }
 }

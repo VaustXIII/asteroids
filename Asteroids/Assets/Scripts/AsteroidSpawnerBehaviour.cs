@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidSpawnerBehaviour : MonoBehaviour {
+    public event System.Action<IScoreable> spawned;
+
     [SerializeField] private AsteroidBehaviour asteroidPrefab;
     [SerializeField] private float timeBetweenSpawns = 3f;
 
@@ -52,6 +54,8 @@ public class AsteroidSpawnerBehaviour : MonoBehaviour {
         }
 
         asteroid.Initialize(initDirection);
+
+        spawned?.Invoke(asteroid);
     }
 
 }
