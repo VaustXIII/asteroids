@@ -5,8 +5,8 @@ public class WrapAroundBehaviour : MonoBehaviour {
     private SpriteRenderer[] spriteRenderers;
     private Camera mainCamera;
 
-    private bool isWrappingX;
-    private bool isWrappingY;
+    private bool isWrappingX = true;
+    private bool isWrappingY = true;
 
     private void Start() {
         mainCamera = Camera.main;
