@@ -34,6 +34,9 @@ public class PlayerShipBehaviour : MonoBehaviour {
     [Range(0.1f, 10f)]
     [SerializeField] private float fireRate = 2;
 
+    [Header("Debug")]
+    [SerializeField] private bool isInvincible;
+
 
     private Vector2 currentVelocity;
     private float currentAcceleration;
@@ -59,6 +62,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
+        if (isInvincible) { return; }
         crashed?.Invoke();
     }
 

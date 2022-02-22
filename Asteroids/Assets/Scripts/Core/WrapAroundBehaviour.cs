@@ -1,39 +1,60 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class WrapAroundBehaviour : MonoBehaviour {
-    private SpriteRenderer[] spriteRenderers;
+    private SpriteRenderer spriteRenderer;
     private Camera mainCamera;
+    private Vector3[] spriteCornerPositions = new Vector3[4];
 
     private bool isWrappingX = true;
     private bool isWrappingY = true;
 
     private void Start() {
         mainCamera = Camera.main;
-        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-        Assert.AreNotEqual(spriteRenderers.Length, 0,
-            $"{gameObject.name}.{this.GetType()}: expected to have some sprite renderers on a wrap-around object");
+        spriteRenderer = this.GetRequiredComponentInChildren<SpriteRenderer>();
+
+        InitializeSpriteCornerPositions();
     }
 
     private void Update() {
-        if (IsOffscreen()) {
-            WrapAround();
-        }
-        else {
+        if (IsVisible()) {
             isWrappingX = false;
             isWrappingY = false;
             return;
         }
-
+        WrapAround();
     }
 
-    private bool IsOffscreen() {
-        foreach (var sprite in spriteRenderers) {
-            if (sprite.isVisible) {
-                return false;
+    private void InitializeSpriteCornerPositions() {
+        var bounds = spriteRenderer.bounds;
+        var extents = bounds.extents;
+
+        spriteCornerPositions[0] = new Vector3(extents.x, extents.y, 0f);
+        spriteCornerPositions[1] = new Vector3(-extents.x, extents.y, 0f);
+        spriteCornerPositions[2] = new Vector3(-extents.x, -extents.y, 0f);
+        spriteCornerPositions[3] = new Vector3(extents.x, -extents.y, 0f);
+
+        foreach (var corner in spriteCornerPositions) {
+            Debug.Log($"Player corners: {corner}");
+        }
+    }
+
+    private bool IsVisible() {
+        foreach (var corner in spriteCornerPositions) {
+            var position = spriteRenderer.bounds.center + corner;
+            var viewportPosition = mainCamera.WorldToViewportPoint(position);
+
+            if (viewportPosition.x > 0f &&
+                viewportPosition.x < 1f &&
+                viewportPosition.y > 0f &&
+                viewportPosition.y < 1f) {
+                return true;
             }
         }
-        return true;
+
+        return false;
     }
 
     private void WrapAround() {
