@@ -12,7 +12,7 @@ public class InGameStatsPanelController : MonoBehaviour {
         positionText.text = $"Position: {playerState.position}";
         rotationText.text = $"Rotation angle: {playerState.rotationAngle}";
         velocityText.text = $"Velocity: {playerState.velocity}, speed: {playerState.velocity.magnitude}";
-        lasertShotsCountText.text = $"Laser shots: {playerState.laserShotsCount}";
-        lasertShotsCooldownText.text = $"Laser cooldown: {playerState.laserShotsCooldown}";
+        lasertShotsCountText.text = $"Laser shots: {playerState.laserChargesCount}";
+        lasertShotsCooldownText.text = $"Laser cooldown: {playerState.laserChargeCooldown}";
     }
 }

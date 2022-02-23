@@ -14,8 +14,8 @@ public class PlayerState {
     public Vector2 position;
     public float rotationAngle;
     public Vector2 velocity;
-    public int laserShotsCount;
-    public float laserShotsCooldown;
+    public int laserChargesCount;
+    public float laserChargeCooldown;
 }
 
 public class PlayerShipBehaviour : MonoBehaviour {
@@ -96,8 +96,8 @@ public class PlayerShipBehaviour : MonoBehaviour {
         state.position = transform.position;
         state.rotationAngle = transform.rotation.eulerAngles.z;
         state.velocity = currentVelocity;
-        state.laserShotsCount = 0;
-        state.laserShotsCooldown = 0f;
+        state.laserChargesCount = laser.CurrentChargesCount;
+        state.laserChargeCooldown = laser.CurrentChargeCooldown;
         return state;
     }
 

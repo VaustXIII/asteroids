@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class LaserBehaviour : MonoBehaviour {
     [SerializeField] private int maxChargesCount = 3;
-    [SerializeField] private float coldown = 5f;
+    [SerializeField] private float chargeCooldown = 5f;
     [SerializeField] private float beamLength = 10f;
     [SerializeField] private float beamWidth = 3f;
-    [SerializeField] private float activeDuration = 0.5f;
+    [SerializeField] private float activeDuration = 0.1f;
 
-    private Transform FirePoint => transform.parent;
+    private int currentChargesCount;
+    private float currentChargeCooldown;
 
     private SpriteRenderer sprite;
     private BoxCollider2D collider;
     private bool isActive = false;
+
+    private Transform FirePoint => transform.parent;
+
+    public int CurrentChargesCount => currentChargesCount;
+    public float CurrentChargeCooldown => currentChargeCooldown;
 
     private void Awake() {
         sprite = this.GetRequiredComponentInChildren<SpriteRenderer>();
@@ -22,10 +28,12 @@ public class LaserBehaviour : MonoBehaviour {
         transform.localScale = new Vector3(beamWidth, beamLength, 1f);
         transform.position = FirePoint.position + 0.5f * beamLength * FirePoint.up;
 
+        currentChargesCount = maxChargesCount;
         Deactivate();
     }
 
     private void Update() {
+        Cooldown();
         HitTargets();
     }
 
@@ -36,6 +44,9 @@ public class LaserBehaviour : MonoBehaviour {
     }
 
     public void Shoot() {
+        if (currentChargesCount <= 0) { return; }
+        if (isActive) { return; }
+        currentChargesCount--;
         Activate();
         this.Invoke(() => Deactivate(), activeDuration);
     }
@@ -47,7 +58,19 @@ public class LaserBehaviour : MonoBehaviour {
         var beamSize = new Vector3(beamWidth, beamLength, 1f);
         var angle = FirePoint.rotation.z;
         Physics2D.OverlapBox(beamCentre, beamSize, angle);
+    }
 
+    private void Cooldown() {
+        if (currentChargesCount >= maxChargesCount) {
+            currentChargeCooldown = chargeCooldown;
+            return;
+        }
+
+        currentChargeCooldown -= Time.deltaTime;
+        if (currentChargeCooldown <= 0) {
+            currentChargesCount++;
+            currentChargeCooldown += chargeCooldown;  // += чтобы перенести остаток в следующий кадр
+        }
     }
 
     private void Activate() {
