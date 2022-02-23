@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void Update() {
-        // Сначала думал сделать рекативно через event'ы,
+        // Сначала думал обновление UI сделать рекативно через event'ы,
         // но почти все данные отображаемые в UI меняются каждый кадр
         // Кажется лишний оверхед, поэтому просто апдейт
         uiController.UpdateIngameStats(playerShip.GetState());

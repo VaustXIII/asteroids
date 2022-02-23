@@ -1,45 +1,48 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingSaucerBehaviour : MonoBehaviour, IShootable, IScoreable {
-    public event System.Action<int> scored;
+public class FlyingSaucerMovementLogic {
 
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private int pointsForDestroying = 300;
-
+    private FlyingSaucerMovementData data;
     private Transform target;
+
     private Vector2 velocity;
 
-    private void Start() {
-        Initialize(FindObjectOfType<PlayerShipBehaviour>().transform);
+    public FlyingSaucerMovementLogic(FlyingSaucerMovementData data, Transform target) {
+        this.data = data;
+        this.target = target;
     }
+
+    public Vector3 GetPositionDelta(Vector3 from, float dt) {
+        if (target == null) {
+            return Vector3.zero;
+        }
+
+        velocity = target.position - from;
+        velocity.Normalize();
+        velocity *= data.maxSpeed;
+
+        var positionDelta = dt * velocity;
+        return positionDelta;
+    }
+}
+
+public class FlyingSaucerBehaviour : Spawnable<Transform>, IShootable, IScoreable {
+    public event System.Action<int> scored;
+    [SerializeField] private FlyingSaucerMovementData movementData;
+    [SerializeField] private int pointsForDestroying = 300;
+
+    private FlyingSaucerMovementLogic movementLogic;
 
     private void Update() {
-        Move();
+        transform.Translate(movementLogic.GetPositionDelta(transform.position, Time.deltaTime));
     }
 
-    public void Initialize(Transform target) {
-        this.target = target;
+    public override void Initialize(Transform target) {
+        movementLogic = new FlyingSaucerMovementLogic(movementData, target);
     }
 
     public void GetShot() {
         scored?.Invoke(pointsForDestroying);
         Destroy(gameObject);
     }
-
-    private void Move() {
-        if (target == null) {
-            return;
-        }
-
-        velocity = target.position - transform.position;
-        velocity.Normalize();
-        velocity *= maxSpeed;
-
-        var positionDelta = Time.deltaTime * velocity;
-        transform.Translate(positionDelta);
-    }
-
 }
