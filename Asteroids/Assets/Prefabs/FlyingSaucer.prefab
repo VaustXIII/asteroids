@@ -62,7 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4390ecb803c3f414d9ed60b83713c449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 4
+  movementData: {fileID: 11400000, guid: 47badc9dcd204e74697a853eb0437852, type: 2}
+  pointsForDestroying: 300
 --- !u!114 &4634430889709050498
 MonoBehaviour:
   m_ObjectHideFlags: 0
