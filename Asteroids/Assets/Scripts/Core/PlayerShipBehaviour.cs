@@ -10,14 +10,6 @@ public class GameInput {
     public bool wasFireLaserPressed;
 }
 
-public class PlayerState {
-    public Vector2 position;
-    public float rotationAngle;
-    public Vector2 velocity;
-    public int laserChargesCount;
-    public float laserChargeCooldown;
-}
-
 public class PlayerShipBehaviour : MonoBehaviour {
     public event System.Action crashed;
 

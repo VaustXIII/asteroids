@@ -1,11 +1,9 @@
 {
-    "name": "Core",
+    "name": "Logic",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:e78ad92294e6ab14eba8488d01e113d7",
-        "GUID:d5c688274663e224787a1494728984e6",
-        "GUID:d964641e09b85d146bce3227c7d9a37a"
+        "GUID:d5c688274663e224787a1494728984e6"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
