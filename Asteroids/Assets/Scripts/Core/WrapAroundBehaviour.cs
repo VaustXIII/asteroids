@@ -11,7 +11,7 @@ public class WrapAroundBehaviour : MonoBehaviour {
     private bool isWrappingX = true;
     private bool isWrappingY = true;
 
-    private void Start() {
+    private void Awake() {
         mainCamera = Camera.main;
         spriteRenderer = this.GetRequiredComponentInChildren<SpriteRenderer>();
 
@@ -35,10 +35,6 @@ public class WrapAroundBehaviour : MonoBehaviour {
         spriteCornerPositions[1] = new Vector3(-extents.x, extents.y, 0f);
         spriteCornerPositions[2] = new Vector3(-extents.x, -extents.y, 0f);
         spriteCornerPositions[3] = new Vector3(extents.x, -extents.y, 0f);
-
-        foreach (var corner in spriteCornerPositions) {
-            Debug.Log($"Player corners: {corner}");
-        }
     }
 
     private bool IsVisible() {

@@ -9,8 +9,18 @@ public static class MonoBehaviourExtensions {
         return mb.StartCoroutine(InvokeRoutine(f, delay));
     }
 
-    public static T[] GetRequiredComponentsInChildren<T>(this MonoBehaviour mb, int? expectedCount = null) where T : class {
-        var result = mb.GetComponentsInChildren<T>();
+    public static T GetRequiredComponent<T>(this MonoBehaviour mb) where T : class {
+        var result = mb.GetComponent<T>();
+
+        Assert.IsNotNull<T>(result, $"{mb.name} needs a {typeof(T)} component");
+
+        return result;
+    }
+
+    public static T[] GetRequiredComponentsInChildren<T>(
+        this MonoBehaviour mb, int? expectedCount = null, bool includeInactive = true
+    ) where T : class {
+        var result = mb.GetComponentsInChildren<T>(includeInactive);
 
         if (expectedCount != null) {
             Assert.AreEqual<int>(

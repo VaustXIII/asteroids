@@ -7,6 +7,7 @@ public class GameInput {
     public float forward;
     public float turn;
     public bool wasFirePressed;
+    public bool wasFireLaserPressed;
 }
 
 public class PlayerState {
@@ -31,11 +32,14 @@ public class PlayerShipBehaviour : MonoBehaviour {
     [SerializeField] private Transform firePoint;
     [SerializeField] private BulletBehaviour bulletPrefab;
 
+    [SerializeField] private LaserBehaviour laserPrefab;
+
+
     [Range(0.1f, 10f)]
     [SerializeField] private float fireRate = 2;
 
     [Header("Debug")]
-    [SerializeField] private bool isInvincible;
+    [SerializeField] private bool debugIsInvincible;
 
 
     private Vector2 currentVelocity;
@@ -44,6 +48,8 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
     private float timeBetweenShots;
     private float lastShotTime;
+
+    private LaserBehaviour laser;
 
 
     private GameInput input = new GameInput();
@@ -56,18 +62,27 @@ public class PlayerShipBehaviour : MonoBehaviour {
         timeBetweenShots = 1f / fireRate;
     }
 
+    private void Start() {
+        laser = Instantiate(laserPrefab, parent: firePoint);
+    }
+
     private void Update() {
         Move(input);
         Fire(input);
+        FireLaser(input);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (isInvincible) { return; }
+        if (debugIsInvincible) { return; }
         crashed?.Invoke();
     }
 
     public void OnInputFire(InputAction.CallbackContext context) {
         input.wasFirePressed = context.performed;
+    }
+
+    public void OnInputFireLaser(InputAction.CallbackContext context) {
+        input.wasFireLaserPressed = context.performed;
     }
 
     public void OnInputMove(InputAction.CallbackContext context) {
@@ -111,5 +126,17 @@ public class PlayerShipBehaviour : MonoBehaviour {
 
         var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.Initialize(transform.up);
+    }
+
+    private void FireLaser(GameInput input) {
+        if (!input.wasFireLaserPressed) { return; }
+        laser.Shoot();
+    }
+
+    private void OnDrawGizmosSelected() {
+        if (firePoint == null) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(firePoint.position, 0.5f);
+        }
     }
 }

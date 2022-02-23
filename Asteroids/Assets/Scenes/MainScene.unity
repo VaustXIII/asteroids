@@ -1503,7 +1503,9 @@ MonoBehaviour:
   frictionRate: 0.002
   firePoint: {fileID: 2036968169}
   bulletPrefab: {fileID: -6081534927504884130, guid: 004fe2df91bb49542827e1c3064adfd0, type: 3}
+  laserPrefab: {fileID: 6611119004114920430, guid: 2d7426998a24e6d49a7ca0baff232f0c, type: 3}
   fireRate: 2
+  debugIsInvincible: 1
 --- !u!114 &1555296643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1601,6 +1603,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 69a8ad6c-ffa2-4edd-8fea-3e543faf6ffd
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42f123c5-7bfe-43be-81d4-0618581b8b07
+    m_ActionName: Player/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
