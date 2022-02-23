@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AsteroidMovementData", order = 1)]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/AsteroidMovementData")]
 public class AsteroidMovementData : ScriptableObject {
     public float initialSpeedMin = 3f;
     public float initialSpeedMax = 12f;

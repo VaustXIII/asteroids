@@ -25,24 +25,43 @@ public class AsteroidMovementLogic {
     }
 }
 
+public class AsteroidBreakDownLogic {
+    private AsteroidBreakdownData data;
+
+    public AsteroidBreakDownLogic(AsteroidBreakdownData data) {
+        this.data = data;
+    }
+
+    public void BreakDownIntoDebris(
+        System.Func<AsteroidBehaviour, Vector3, Quaternion, AsteroidBehaviour> instatiateFunction,
+        Vector3 position,
+        Quaternion rotation
+    ) {
+        if (data != null) {
+            for (int childIndex = 0; childIndex < data.childrenCount; childIndex++) {
+                var child = instatiateFunction(data.childAsteroidPrefab, position, rotation);
+                child.Initialize(Random.onUnitSphere);
+            }
+        }
+    }
+}
+
 public class AsteroidBehaviour : MonoBehaviour, IShootable, IScoreable {
     public event System.Action<int> scored;
 
     [SerializeField] private int pointsForDestroying = 100;
     [SerializeField] private AsteroidMovementData movementData;
 
-    [Header("Breaking into smaller parts")]
-    [SerializeField] private AsteroidBehaviour childAsteroidPrefab;
-    [Min(1)]
-    [SerializeField] private int childrenCount;
+    [SerializeField] private AsteroidBreakdownData breakdownData;
 
     private AsteroidMovementLogic movementLogic;
+    private AsteroidBreakDownLogic breakDownLogic;
 
+    private void Awake() {
+        this.breakDownLogic = new AsteroidBreakDownLogic(breakdownData);
+    }
 
     private void Update() {
-        if (movementLogic == null) {
-            return;
-        }
         transform.Translate(movementLogic.GetPositionDelta(Time.deltaTime), Space.World);
         transform.Rotate(movementLogic.GetRotationDelta(Time.deltaTime));
     }
@@ -53,16 +72,7 @@ public class AsteroidBehaviour : MonoBehaviour, IShootable, IScoreable {
 
     public void GetShot() {
         scored?.Invoke(pointsForDestroying);
-        BreakDownIntoDebris();
-    }
-
-    private void BreakDownIntoDebris() {
-        if (childAsteroidPrefab != null) {
-            for (int childIndex = 0; childIndex < childrenCount; childIndex++) {
-                var child = Instantiate(childAsteroidPrefab, transform.position, transform.rotation);
-                child.Initialize(Random.onUnitSphere);
-            }
-        }
+        breakDownLogic?.BreakDownIntoDebris(Instantiate<AsteroidBehaviour>, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

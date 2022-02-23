@@ -162,8 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsForDestroying: 100
   movementData: {fileID: 11400000, guid: d70908ea2b3d3824490e9a4dfe5ff7c4, type: 2}
-  childAsteroidPrefab: {fileID: 857774825863713653, guid: c037873ba2e51a84186dbc7aa0c2f77f, type: 3}
-  childrenCount: 2
+  breakdownData: {fileID: 11400000, guid: 236cb3b3f3fdbd24db5711986845ed85, type: 2}
 --- !u!114 &857774825863713652
 MonoBehaviour:
   m_ObjectHideFlags: 0
