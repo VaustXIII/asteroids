@@ -161,8 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsForDestroying: 200
-  initialSpeedMin: 7
-  initialSpeedMax: 12
+  movementData: {fileID: 11400000, guid: bd642076500515b4d93349ddd6fe6826, type: 2}
   childAsteroidPrefab: {fileID: 0}
   childrenCount: 0
 --- !u!114 &857774825863713652

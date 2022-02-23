@@ -1,36 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public class AsteroidMovementLogic {
+    private AsteroidMovementData data;
+
+    private float angularSpeed;
+    private Vector3 velocity;
+
+    public AsteroidMovementLogic(AsteroidMovementData data, Vector2 direction) {
+        this.data = data;
+
+        var speed = Random.Range(data.initialSpeedMin, data.initialSpeedMax);
+        velocity = speed * direction.normalized;
+
+        angularSpeed = Random.Range(data.initialAngularSpeedMin, data.initialAngularSpeedMax);
+        angularSpeed = RandomExt.Bool() ? angularSpeed : -angularSpeed;
+    }
+
+    public Vector3 GetPositionDelta(float dt) {
+        return dt * velocity;
+    }
+
+    public Vector3 GetRotationDelta(float dt) {
+        return dt * angularSpeed * Vector3.forward;
+    }
+}
 
 public class AsteroidBehaviour : MonoBehaviour, IShootable, IScoreable {
     public event System.Action<int> scored;
 
     [SerializeField] private int pointsForDestroying = 100;
-    [Header("Movement")]
-    [SerializeField] private float initialSpeedMin = 3f;
-    [SerializeField] private float initialSpeedMax = 12f;
+    [SerializeField] private AsteroidMovementData movementData;
 
     [Header("Breaking into smaller parts")]
     [SerializeField] private AsteroidBehaviour childAsteroidPrefab;
     [Min(1)]
     [SerializeField] private int childrenCount;
 
-    private Vector2 velocity;
+    private AsteroidMovementLogic movementLogic;
 
 
     private void Update() {
-        var positionDelta = Time.deltaTime * velocity;
-        transform.Translate(positionDelta.x, positionDelta.y, 0f);
+        if (movementLogic == null) {
+            return;
+        }
+        transform.Translate(movementLogic.GetPositionDelta(Time.deltaTime), Space.World);
+        transform.Rotate(movementLogic.GetRotationDelta(Time.deltaTime));
     }
 
     public void Initialize(Vector2 direction) {
-        var speed = Random.Range(initialSpeedMin, initialSpeedMax);
-        velocity = speed * direction.normalized;
-    }
-
-    private void OnValidate() {
-        initialSpeedMin = Mathf.Min(initialSpeedMin, initialSpeedMax);
-        initialSpeedMax = Mathf.Max(initialSpeedMin, initialSpeedMax);
+        movementLogic = new AsteroidMovementLogic(movementData, direction);
     }
 
     public void GetShot() {
