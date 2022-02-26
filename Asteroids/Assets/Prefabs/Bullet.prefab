@@ -178,8 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: 90514b0696026344db4a87b5a71d1810, type: 2}
-  maxSpeed: 20
-  lifeTime: 0.75
+  selfDestructData: {fileID: 11400000, guid: 2b3474fe1efc3604083ae27233d88422, type: 2}
 --- !u!114 &-4923712978530831934
 MonoBehaviour:
   m_ObjectHideFlags: 0

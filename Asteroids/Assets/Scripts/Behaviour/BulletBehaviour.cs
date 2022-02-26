@@ -1,38 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+
+public class SelfDestructLogic {
+    public event System.Action selfDestructed;
+
+    private SelfDestructData data;
+
+    private float timeLeft;
+
+    public SelfDestructLogic(SelfDestructData data) {
+        this.data = data;
+    }
+
+    public void Initialize() {
+        timeLeft = data.lifeTime;
+    }
+
+    public void Tick(float dt) {
+        timeLeft -= dt;
+
+        if (timeLeft <= 0f) { SelfDestruct(); }
+    }
+
+    private void SelfDestruct() {
+        selfDestructed?.Invoke();
+    }
+}
 
 public class BulletBehaviour : MonoBehaviour {
 
     [SerializeField] private AsteroidMovementData movementData;
-    [SerializeField] private float maxSpeed = 20f;
-    [SerializeField] private float lifeTime = 0.5f;
+    [SerializeField] private SelfDestructData selfDestructData;
 
-    private Coroutine selfDestructCoroutine;
 
     private LinearMovementLogic movementLogic;
+    private SelfDestructLogic selfDestructLogic;
 
     private void Update() {
         transform.Translate(movementLogic.GetPositionDelta(Time.deltaTime), Space.World);
+        selfDestructLogic.Tick(Time.deltaTime);
+    }
+
+    private void OnDestroy() {
+        if (selfDestructLogic != null) {
+            selfDestructLogic.selfDestructed -= OnSelfDestruct;
+        }
     }
 
     public void Initialize(Vector2 direction) {
         movementLogic = new LinearMovementLogic(movementData, direction);
-        selfDestructCoroutine = this.Invoke(SelfDestruct, lifeTime);
+        selfDestructLogic = new SelfDestructLogic(selfDestructData);
+
+        selfDestructLogic.Initialize();
+        selfDestructLogic.selfDestructed += OnSelfDestruct;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.TryGetComponent<IShootable>(out var target)) {
             target.GetShot();
-            SelfDestruct();
+            OnSelfDestruct();
         }
     }
 
-    private void SelfDestruct() {
-        if (selfDestructCoroutine != null) {
-            StopCoroutine(selfDestructCoroutine);
-            selfDestructCoroutine = null;
-        }
+    private void OnSelfDestruct() {
         Destroy(gameObject);
     }
 }
