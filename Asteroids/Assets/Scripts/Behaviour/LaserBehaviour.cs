@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserBehaviour : MonoBehaviour {
-    [SerializeField] private int maxChargesCount = 3;
-    [SerializeField] private float chargeCooldown = 5f;
-    [SerializeField] private float beamLength = 10f;
-    [SerializeField] private float beamWidth = 3f;
-    [SerializeField] private float activeDuration = 0.1f;
+    [SerializeField] private LaserData laserData;
 
     private int currentChargesCount;
     private float currentChargeCooldown;
@@ -25,10 +21,10 @@ public class LaserBehaviour : MonoBehaviour {
         sprite = this.GetRequiredComponentInChildren<SpriteRenderer>();
         collider = this.GetRequiredComponent<BoxCollider2D>();
 
-        transform.localScale = new Vector3(beamWidth, beamLength, 1f);
-        transform.position = FirePoint.position + 0.5f * beamLength * FirePoint.up;
+        transform.localScale = new Vector3(laserData.beamWidth, laserData.beamLength, 1f);
+        transform.position = FirePoint.position + 0.5f * laserData.beamLength * FirePoint.up;
 
-        currentChargesCount = maxChargesCount;
+        currentChargesCount = laserData.maxChargesCount;
         Deactivate();
     }
 
@@ -48,28 +44,28 @@ public class LaserBehaviour : MonoBehaviour {
         if (isActive) { return; }
         currentChargesCount--;
         Activate();
-        this.Invoke(Deactivate, activeDuration);
+        this.Invoke(Deactivate, laserData.activeDuration);
     }
 
     private void HitTargets() {
         if (!isActive) { return; }
 
-        var beamCentre = FirePoint.position + 0.5f * beamLength * FirePoint.up;
-        var beamSize = new Vector3(beamWidth, beamLength, 1f);
+        var beamCentre = FirePoint.position + 0.5f * laserData.beamLength * FirePoint.up;
+        var beamSize = new Vector3(laserData.beamWidth, laserData.beamLength, 1f);
         var angle = FirePoint.rotation.z;
         Physics2D.OverlapBox(beamCentre, beamSize, angle);
     }
 
     private void Cooldown() {
-        if (currentChargesCount >= maxChargesCount) {
-            currentChargeCooldown = chargeCooldown;
+        if (currentChargesCount >= laserData.maxChargesCount) {
+            currentChargeCooldown = laserData.chargeCooldown;
             return;
         }
 
         currentChargeCooldown -= Time.deltaTime;
         if (currentChargeCooldown <= 0) {
             currentChargesCount++;
-            currentChargeCooldown += chargeCooldown;  // += чтобы перенести остаток в следующий кадр
+            currentChargeCooldown += laserData.chargeCooldown;  // += чтобы перенести остаток в следующий кадр
         }
     }
 

@@ -93,11 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c1f16756897e5469413878463c2767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxChargesCount: 3
-  coldown: 5
-  beamLength: 10
-  beamWidth: 2
-  activeDuration: 0.1
+  laserData: {fileID: 11400000, guid: 234936583c339bb43af99c03af8d89b7, type: 2}
 --- !u!1 &6611119005190081160
 GameObject:
   m_ObjectHideFlags: 0
