@@ -48,21 +48,21 @@ public abstract class SpawnerLogic<PrefabType, SpawnableInitType> where PrefabTy
         timeTillNextSpawn = data.timeBetweenSpawns;
     }
 
-    protected abstract void InitializeSpawnedObject(PrefabType spawnedObject);
+    protected abstract void InitializeSpawnedObject(PrefabType spawnedObject, SpawnableInitType initData);
 
-    public void Tick(float dt, Camera camera) {
+    public void Tick(float dt, Camera camera, SpawnableInitType initData) {
         timeTillNextSpawn -= dt;
         if (timeTillNextSpawn <= 0f) {
             timeTillNextSpawn += data.timeBetweenSpawns;
-            Spawn(camera);
+            Spawn(camera, initData);
         }
     }
 
-    private void Spawn(Camera camera) {
+    private void Spawn(Camera camera, SpawnableInitType initData) {
         var pointOutsideOfCameraView = Utils.GetRandomPointOutsideOfCameraView(camera);
 
         var spawnedObject = instatiateFunc(data.prefab, pointOutsideOfCameraView, Quaternion.identity);
-        InitializeSpawnedObject(spawnedObject);
+        InitializeSpawnedObject(spawnedObject, initData);
         spawned?.Invoke(spawnedObject);
     }
 }
@@ -73,7 +73,7 @@ public class AsteroidSpawnerLogic<AsteroidPrefabType> : SpawnerLogic<AsteroidPre
         : base(data, instantiateFunc) {
     }
 
-    protected override void InitializeSpawnedObject(AsteroidPrefabType spawnedObject) {
+    protected override void InitializeSpawnedObject(AsteroidPrefabType spawnedObject, Vector2 initData) { // Тут initData игнорируется, что конечно же некраисво
         Vector3 targetPoint = 0.75f * spawnedObject.transform.position.y * Random.onUnitSphere;  // точка в районе центра экрана
         targetPoint.z = 0;
         Vector3 initDirection = targetPoint - spawnedObject.transform.position;  // запустить куда-то в район центра экрана
@@ -87,8 +87,8 @@ public class FlyingSaucerSpawnerLogic<FlyingSaucerPrefabType> : SpawnerLogic<Fly
         : base(data, instantiateFunc) {
     }
 
-    protected override void InitializeSpawnedObject(FlyingSaucerPrefabType spawnedObject) {
-        spawnedObject.Initialize(null);
+    protected override void InitializeSpawnedObject(FlyingSaucerPrefabType spawnedObject, Transform initData) {
+        spawnedObject.Initialize(initData);
     }
 }
 
@@ -115,13 +115,13 @@ public class EnemiesSpawnerBehaviour : MonoBehaviour {
         asteroidSpawnerLogic = new AsteroidSpawnerLogic<AsteroidBehaviour>(asteroidSpawnerData, Instantiate<AsteroidBehaviour>);
         asteroidSpawnerLogic.spawned += OnLogicSpawend;
 
-        flyingSaucerSpawnerLogic= new FlyingSaucerSpawnerLogic<FlyingSaucerBehaviour>(flyingSaucerSpawnerData, Instantiate<FlyingSaucerBehaviour>);
+        flyingSaucerSpawnerLogic = new FlyingSaucerSpawnerLogic<FlyingSaucerBehaviour>(flyingSaucerSpawnerData, Instantiate<FlyingSaucerBehaviour>);
         flyingSaucerSpawnerLogic.spawned += OnLogicSpawend;
     }
 
     private void Update() {
-        asteroidSpawnerLogic.Tick(Time.deltaTime, mainCamera);
-        flyingSaucerSpawnerLogic.Tick(Time.deltaTime, mainCamera);
+        asteroidSpawnerLogic.Tick(Time.deltaTime, mainCamera, Vector2.zero); // Vector2.zero игнорируется, что конечно же некраисво
+        flyingSaucerSpawnerLogic.Tick(Time.deltaTime, mainCamera, targetPlayer);
     }
 
     private void OnLogicSpawend(IScoreable scoreable) {
