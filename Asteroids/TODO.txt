@@ -1,7 +1,5 @@
 
 2. separate logic and views
-    a. bullet
     b. spawner
     c. player
-    d. wrap
 3*. use object pooling
