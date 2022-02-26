@@ -27,7 +27,7 @@ public class SelfDestructLogic {
     }
 }
 
-public class BulletBehaviour : MonoBehaviour {
+public class BulletBehaviour : Spawnable<Vector2> {
 
     [SerializeField] private AsteroidMovementData movementData;
     [SerializeField] private SelfDestructData selfDestructData;
@@ -47,7 +47,7 @@ public class BulletBehaviour : MonoBehaviour {
         }
     }
 
-    public void Initialize(Vector2 direction) {
+    public override void Initialize(Vector2 direction) {
         movementLogic = new LinearMovementLogic(movementData, direction);
         selfDestructLogic = new SelfDestructLogic(selfDestructData);
 

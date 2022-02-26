@@ -23,9 +23,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     [SerializeField] private bool debugIsInvincible;
 
     private PlayerMovemenLogic movementLogic;
-
-    private float timeBetweenShots;
-    private float lastShotTime;
+    private PlayerBulletFireLogic bulletFireLogic;
 
     private LaserBehaviour laser;
 
@@ -37,9 +35,10 @@ public class PlayerShipBehaviour : MonoBehaviour {
         Assert.IsNotNull(bulletPrefab, $"{gameObject.name}.{this.GetType()}: need a bullet prefab");
         Assert.AreNotEqual(0f, fireRate,
             $"{gameObject.name}.{this.GetType()}: fireRate can not be zero");
-        timeBetweenShots = 1f / fireRate;
+
 
         movementLogic = new PlayerMovemenLogic(movementData);
+        bulletFireLogic = new PlayerBulletFireLogic(fireRate, bulletPrefab, firePoint);
     }
 
     private void Start() {
@@ -50,7 +49,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
         transform.Rotate(0f, 0f, movementLogic.GetRotationDelta(input, Time.deltaTime), Space.Self);
         transform.Translate(movementLogic.GetPositionDelta(transform.up, input, Time.deltaTime), Space.World);
 
-        Fire(input);
+        bulletFireLogic.Fire(input, Time.time, transform.up, Instantiate<Spawnable<Vector2>>);
         FireLaser(input);
     }
 
@@ -81,15 +80,6 @@ public class PlayerShipBehaviour : MonoBehaviour {
         state.laserChargesCount = laser.CurrentChargesCount;
         state.laserChargeCooldown = laser.CurrentChargeCooldown;
         return state;
-    }
-
-    private void Fire(GameInput input) {
-        if (!input.wasFirePressed) { return; }
-        if ((Time.time - lastShotTime) < timeBetweenShots) { return; }
-        lastShotTime = Time.time;
-
-        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bullet.Initialize(transform.up);
     }
 
     private void FireLaser(GameInput input) {
