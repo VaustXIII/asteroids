@@ -48,7 +48,7 @@ public class LaserBehaviour : MonoBehaviour {
         if (isActive) { return; }
         currentChargesCount--;
         Activate();
-        this.Invoke(() => Deactivate(), activeDuration);
+        this.Invoke(Deactivate, activeDuration);
     }
 
     private void HitTargets() {

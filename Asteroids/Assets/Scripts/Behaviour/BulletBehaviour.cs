@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour {
 
+    [SerializeField] private AsteroidMovementData movementData;
     [SerializeField] private float maxSpeed = 20f;
     [SerializeField] private float lifeTime = 0.5f;
 
     private Coroutine selfDestructCoroutine;
 
-    private Vector2 velocity;
+    private LinearMovementLogic movementLogic;
 
     private void Update() {
-        var positionDelta = Time.deltaTime * velocity;
-        transform.Translate(positionDelta.x, positionDelta.y, 0, Space.World);
+        transform.Translate(movementLogic.GetPositionDelta(Time.deltaTime), Space.World);
     }
 
     public void Initialize(Vector2 direction) {
-        velocity = maxSpeed * direction.normalized;
-        selfDestructCoroutine = this.Invoke(() => SelfDestruct(), lifeTime);
+        movementLogic = new LinearMovementLogic(movementData, direction);
+        selfDestructCoroutine = this.Invoke(SelfDestruct, lifeTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

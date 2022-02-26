@@ -8,7 +8,7 @@ public class AsteroidBehaviour : Spawnable<Vector2>, IShootable, IScoreable  {
 
     [SerializeField] private AsteroidBreakdownData breakdownData;
 
-    private AsteroidMovementLogic movementLogic;
+    private LinearMovementLogic movementLogic;
     private AsteroidBreakDownLogic breakDownLogic;
 
     private void Awake() {
@@ -21,7 +21,7 @@ public class AsteroidBehaviour : Spawnable<Vector2>, IShootable, IScoreable  {
     }
 
     public override void Initialize(Vector2 direction) {
-        movementLogic = new AsteroidMovementLogic(movementData, direction);
+        movementLogic = new LinearMovementLogic(movementData, direction);
     }
 
     public void GetShot() {

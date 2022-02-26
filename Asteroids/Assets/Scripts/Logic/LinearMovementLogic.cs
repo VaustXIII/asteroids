@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class AsteroidMovementLogic {
+public class LinearMovementLogic {
     private AsteroidMovementData data;
 
     private float angularSpeed;
     private Vector3 velocity;
 
-    public AsteroidMovementLogic(AsteroidMovementData data, Vector2 direction) {
+    public LinearMovementLogic(AsteroidMovementData data, Vector2 direction) {
         this.data = data;
 
         var speed = Random.Range(data.initialSpeedMin, data.initialSpeedMax);
