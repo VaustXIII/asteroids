@@ -13,11 +13,7 @@ public class GameInput {
 public class PlayerShipBehaviour : MonoBehaviour {
     public event System.Action crashed;
 
-    [Header("Movement")]
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float acceleration = 1f;
-    [SerializeField] private float turnRate = 200f;
-    [SerializeField] private float frictionRate = .2f;
+    [SerializeField] private PlayerMovementData movementData;
 
 
     [Header("Combat")]
@@ -33,10 +29,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     [Header("Debug")]
     [SerializeField] private bool debugIsInvincible;
 
-
-    private Vector2 currentVelocity;
-    private float currentAcceleration;
-    private float currentTurnRate;
+    private PlayerMovemenLogic movementLogic;
 
     private float timeBetweenShots;
     private float lastShotTime;
@@ -52,6 +45,8 @@ public class PlayerShipBehaviour : MonoBehaviour {
         Assert.AreNotEqual(0f, fireRate,
             $"{gameObject.name}.{this.GetType()}: fireRate can not be zero");
         timeBetweenShots = 1f / fireRate;
+
+        movementLogic = new PlayerMovemenLogic(movementData);
     }
 
     private void Start() {
@@ -59,7 +54,9 @@ public class PlayerShipBehaviour : MonoBehaviour {
     }
 
     private void Update() {
-        Move(input);
+        transform.Rotate(0f, 0f, movementLogic.GetRotationDelta(input, Time.deltaTime), Space.Self);
+        transform.Translate(movementLogic.GetPositionDelta(transform.up, input, Time.deltaTime), Space.World);
+
         Fire(input);
         FireLaser(input);
     }
@@ -87,28 +84,10 @@ public class PlayerShipBehaviour : MonoBehaviour {
     public PlayerState GetState() {
         state.position = transform.position;
         state.rotationAngle = transform.rotation.eulerAngles.z;
-        state.velocity = currentVelocity;
+        state.velocity = movementLogic.CurrentVelocity;
         state.laserChargesCount = laser.CurrentChargesCount;
         state.laserChargeCooldown = laser.CurrentChargeCooldown;
         return state;
-    }
-
-    private void Move(GameInput input) {
-        currentAcceleration = input.forward > 0 ? acceleration * input.forward : 0f;
-        currentTurnRate = turnRate * -input.turn;
-
-        float rotation = currentTurnRate * Time.deltaTime;
-        transform.Rotate(0, 0, rotation, Space.Self);
-
-        Vector2 velocityDelta = currentAcceleration * Time.deltaTime * (Vector2)transform.up - frictionRate * currentVelocity;
-        currentVelocity += velocityDelta;
-
-        if (currentVelocity.sqrMagnitude > maxSpeed * maxSpeed) {
-            currentVelocity = maxSpeed * currentVelocity.normalized;
-        }
-
-        Vector2 positionDelta = Time.deltaTime * currentVelocity;
-        transform.Translate(positionDelta.x, positionDelta.y, 0f, Space.World);
     }
 
     private void Fire(GameInput input) {
@@ -126,7 +105,7 @@ public class PlayerShipBehaviour : MonoBehaviour {
     }
 
     private void OnDrawGizmosSelected() {
-        if (firePoint == null) {
+        if (firePoint != null) {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(firePoint.position, 0.5f);
         }

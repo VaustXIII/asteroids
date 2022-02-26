@@ -1497,10 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f3e4115e712a440a2d808b458fc896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10
-  acceleration: 20
-  turnRate: 200
-  frictionRate: 0.002
+  movementData: {fileID: 11400000, guid: 9a10d9c64e83acd49b4dc9844ae470fe, type: 2}
   firePoint: {fileID: 2036968169}
   bulletPrefab: {fileID: -6081534927504884130, guid: 004fe2df91bb49542827e1c3064adfd0, type: 3}
   laserPrefab: {fileID: 6611119004114920430, guid: 2d7426998a24e6d49a7ca0baff232f0c, type: 3}
