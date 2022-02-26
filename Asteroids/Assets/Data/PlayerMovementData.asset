@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e26455770846d4ab6dd60616935efb, type: 3}
   m_Name: PlayerMovementData
   m_EditorClassIdentifier: 
-  maxSpeed: 10
+  maxSpeed: 15
   acceleration: 20
   turnRate: 200
-  frictionRate: 0.002
+  frictionRate: 0.005

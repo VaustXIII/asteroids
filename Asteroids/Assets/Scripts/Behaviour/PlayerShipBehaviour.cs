@@ -3,13 +3,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
-public class GameInput {
-    public float forward;
-    public float turn;
-    public bool wasFirePressed;
-    public bool wasFireLaserPressed;
-}
-
 public class PlayerShipBehaviour : MonoBehaviour {
     public event System.Action crashed;
 
