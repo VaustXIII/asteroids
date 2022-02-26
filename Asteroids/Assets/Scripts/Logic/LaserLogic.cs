@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LaserLogic {
     private LaserData data;
-    private MonoBehaviour laserBehaviour;
-    private SpriteRenderer sprite;
+    private MonoBehaviour laserBehaviour;  // feels icky to have it for only Invoke
+    private SpriteRenderer sprite;  // this and collider in logic layer also feels icky
     private BoxCollider2D collider;
     private Transform firePoint;
 

@@ -1,6 +1,1 @@
-
-2. separate logic and views
-    b. spawner
-    c. player
-    d. laser
 3*. use object pooling

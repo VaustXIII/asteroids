@@ -486,11 +486,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7a8c3a7efafe345bfdf290ecc00587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidPrefab: {fileID: 857774825863713653, guid: b4faa7a374c82334bbf62a75cb7e43d1, type: 3}
-  flyingSaucerPrefab: {fileID: 4634430889709050499, guid: 4a33b97f2353f204e9f4cd806fd9ef1d, type: 3}
-  timeBetweenAsteroidSpawns: 3
-  timeBetweenFlyingSaucerSpawns: 10
   targetPlayer: {fileID: 1555296641}
+  asteroidSpawnerData:
+    prefab: {fileID: 857774825863713653, guid: b4faa7a374c82334bbf62a75cb7e43d1, type: 3}
+    timeBetweenSpawns: 3
+  flyingSaucerSpawnerData:
+    prefab: {fileID: 4634430889709050499, guid: 4a33b97f2353f204e9f4cd806fd9ef1d, type: 3}
+    timeBetweenSpawns: 5
   drawDebugLines: 1
 --- !u!1 &506868614
 GameObject:
